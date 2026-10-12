@@ -1,5 +1,7 @@
 import pytest
 
+from conftest import need
+
 from pbg2sed2.verify import compare, read_report
 
 
@@ -23,8 +25,8 @@ def test_compare_flags_a_column_the_sed2_lacks():
 
 
 def test_verification_against_the_real_original():
-    pytest.importorskip("process_bigraph")
-    pytest.importorskip("viva_tellurium")
+    need("process_bigraph")
+    need("viva_tellurium")
     from pbg2sed2.classify import classify
     from pbg2sed2.mapping import Options, translate
     from pbg2sed2.reader import Document

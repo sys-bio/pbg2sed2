@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    # The package alone: reader, classifier, survey, importer.  Tests that need the simulators or the forward translator skip here.
+    # The package with libsed2: reader, classifier, survey, importer.  Tests that need the simulators or the forward translator skip here.
     runs-on: ubuntu-latest
     env:
       # With CI set, a corpus document that cannot be downloaded fails its test instead of skipping it.
@@ -16,6 +16,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: libsed2 (the importer validates every document with it before writing)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=$(gh release list --repo sys-bio/SED2 --limit 1 --json tagName --jq '.[0].tagName')
+          mkdir -p "$RUNNER_TEMP/libsed2"
+          gh release download "$tag" --repo sys-bio/SED2 --pattern 'libsed2-*.whl' --dir "$RUNNER_TEMP/libsed2"
+          pip install "$RUNNER_TEMP"/libsed2/libsed2-*.whl
       - run: pip install -e .[dev,emit]
       - run: python -m pytest -q
 

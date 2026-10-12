@@ -2,13 +2,15 @@ import json
 
 import pytest
 
+from conftest import need
+
 from pbg2sed2.classify import classify
 from pbg2sed2.emit import EXIT_NOT_TRANSLATABLE, EXIT_WRITTEN, write_result
 from pbg2sed2.mapping import Options, translate
 from pbg2sed2.reader import Document
 
-pytest.importorskip("libsbml")
-pytest.importorskip("antimony")
+need("libsbml")
+need("antimony")
 
 MODEL = "model m\n  S1 = 10; S2 = 0\n  S1 -> S2; k*S1; k = 0.3\nend\n"
 
@@ -87,6 +89,7 @@ def test_a_part_without_translation_refuses_the_whole_document(tmp_path):
 
 
 def test_a_complete_document_is_written(tmp_path):
+    need("libsed2")                                                  # write_result validates with libsed2 and refuses to write without it
     assert write_result(run(utc_doc()), tmp_path / "b.sed2.json", None) == EXIT_WRITTEN
     assert (tmp_path / "b.sed2.json").exists() and (tmp_path / "t.model.sbml").exists()
 

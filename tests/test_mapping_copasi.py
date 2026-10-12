@@ -1,10 +1,12 @@
 import pytest
 
+from conftest import need
+
 from pbg2sed2.classify import classify
 from pbg2sed2.mapping import Options, translate
 from pbg2sed2.reader import Document
 
-pytest.importorskip("libsbml")
+need("libsbml")
 
 SBML = """<?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">

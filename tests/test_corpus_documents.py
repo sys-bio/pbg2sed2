@@ -5,12 +5,14 @@ from pathlib import Path
 
 import pytest
 
+from conftest import need
+
 from pbg2sed2.classify import classify
 from pbg2sed2.mapping import Options, translate
 from pbg2sed2.reader import load_path
 
-pytest.importorskip("libsbml")
-pytest.importorskip("antimony")
+need("libsbml")
+need("antimony")
 
 TELLURIUM = ["viva-tellurium:decay-demo.composite.yaml", "viva-tellurium:decay-with-viz.composite.yaml", "viva-tellurium:steady-state.composite.yaml"]
 COPASI = ["viva-copasi:utc-step.composite.yaml", "viva-copasi:utc-process.composite.yaml", "viva-copasi:steady-state.composite.yaml"]

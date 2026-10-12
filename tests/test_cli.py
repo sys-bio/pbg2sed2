@@ -4,9 +4,11 @@ from pathlib import Path
 
 import pytest
 
-pytest.importorskip("libsbml")
-pytest.importorskip("antimony")
-pytest.importorskip("libsed2")
+from conftest import need
+
+need("libsbml")
+need("antimony")
+need("libsed2")
 
 from pbg2sed2.cli import main  # noqa: E402
 

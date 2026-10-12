@@ -6,23 +6,14 @@ same interpreter crashes it on Linux (draft W-13 of the forward translator's not
 and python-libsbml each link their own libSBML statically, so the one loaded first wins the shared symbols; fixed on their main only
 for the UTC step, not for the steady-state step and the UTC process), and a verification run should not depend on what ran before it."""
 
-import importlib
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
-
-def need(mod):
-    """Import `mod`, or skip the module's tests.  With PBG2SED2_REQUIRE_FULL set (the full CI job) a missing package is an error: the tests must not pass by being skipped."""
-    if os.environ.get("PBG2SED2_REQUIRE_FULL"):
-        importlib.import_module(mod)
-    else:
-        pytest.importorskip(mod)
-
+from conftest import need
 
 for mod in ("process_bigraph", "viva_tellurium", "viva_copasi", "pysed2translate", "libsed2", "libsbml", "antimony"):
     need(mod)
