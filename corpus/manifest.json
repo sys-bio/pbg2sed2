@@ -1,0 +1,77 @@
+{
+ "about": "Documents the tests and scripts read. Copies are never committed: they are fetched from GitHub at the pinned ref into the git-ignored corpus-cache directory when missing (see src/pbg2sed2/corpus.py).",
+ "entries": [
+  {
+   "id": "viva-tellurium:decay-demo.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-tellurium",
+   "path": "viva_tellurium/composites/decay-demo.composite.yaml",
+   "ref": "b32ef1c66393326f6c8382c7dc17f013ddb12500",
+   "sha256": "05672bbf29b4b688b31095a737bce76f3ee5c499cda05c00f8fee13d24c3f8ef"
+  },
+  {
+   "id": "viva-tellurium:decay-with-viz.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-tellurium",
+   "path": "viva_tellurium/composites/decay-with-viz.composite.yaml",
+   "ref": "b32ef1c66393326f6c8382c7dc17f013ddb12500",
+   "sha256": "2216c60a5ff7f223894c1eda4e67584e7400c6604f9afd256b7a728c20ef553f"
+  },
+  {
+   "id": "viva-tellurium:steady-state.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-tellurium",
+   "path": "viva_tellurium/composites/steady-state.composite.yaml",
+   "ref": "b32ef1c66393326f6c8382c7dc17f013ddb12500",
+   "sha256": "39c171ff34cd3fcde89dfae302c3ab74e094a0a6236f495be2e70fac92deddb5"
+  },
+  {
+   "id": "viva-copasi:utc-step.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-copasi",
+   "path": "viva_copasi/composites/utc-step.composite.yaml",
+   "ref": "23e2a05f0f790c4d6fa83db19e58811fdef9aa04",
+   "sha256": "ed5bc486ec62eed0873557cf4c6bd8fc476ae8566105d62a7469ca33b197f59e"
+  },
+  {
+   "id": "viva-copasi:utc-process.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-copasi",
+   "path": "viva_copasi/composites/utc-process.composite.yaml",
+   "ref": "23e2a05f0f790c4d6fa83db19e58811fdef9aa04",
+   "sha256": "7b5fe14d4be404ae009d0173f65bbb61b066202a4594fb75047487aaf3b51a80"
+  },
+  {
+   "id": "viva-copasi:steady-state.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-copasi",
+   "path": "viva_copasi/composites/steady-state.composite.yaml",
+   "ref": "23e2a05f0f790c4d6fa83db19e58811fdef9aa04",
+   "sha256": "b89818eb18f4aff2bab0d576d13ad54d628f6f27220e5ea9962adc1bc8fc5525"
+  },
+  {
+   "id": "viva-copasi:repressilator.xml",
+   "org": "vivarium-collective",
+   "repo": "viva-copasi",
+   "path": "viva_copasi/composites/repressilator.xml",
+   "ref": "23e2a05f0f790c4d6fa83db19e58811fdef9aa04",
+   "sha256": "d535c84bc5fe68b01728cac5c53f8fed971176e3f0f2367a9ba1e9c043b11a2d"
+  },
+  {
+   "id": "viva-opencor:decay.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-opencor",
+   "path": "viva_opencor/composites/decay.composite.yaml",
+   "ref": "cca373bf6d7f55f59f55d929147db009beaa5a76",
+   "sha256": "a51a120a9013b2d11df27d0fd187c3bd441fc395a07cd72c1ae57f01631a2bda"
+  },
+  {
+   "id": "viva-opencor:van-der-pol.composite.yaml",
+   "org": "vivarium-collective",
+   "repo": "viva-opencor",
+   "path": "viva_opencor/composites/van-der-pol.composite.yaml",
+   "ref": "cca373bf6d7f55f59f55d929147db009beaa5a76",
+   "sha256": "2bb53621cf88707ea6eac93607207b837468babd9ceef66f1376a009c456b43c"
+  }
+ ]
+}

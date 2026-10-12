@@ -1,0 +1,7 @@
+# Our work notes and the drafts of reports about other projects' bugs: kept locally (work/INDEX.md), never committed
+work/
+# Python build and test artefacts
+__pycache__/
+*.egg-info/
+.pytest_cache/
+corpus-cache/

@@ -1,0 +1,26 @@
+{
+  "_comment": "Recognition table (plan, section 5.4).  Matching is by class name only: the last component of the address after 'local:' and an optional '!module.' prefix.  Package names and version ranges are recorded but NOT enforced in the pilot; a class with the same name from another package would be recognised.  Roles: simulator-process, simulator-step, steady-state-step, emitter, visualization, declarative-math, stateful-utility, drawing, composite, forward-translator, coupled-model.",
+  "classes": [
+    {"names": ["TelluriumProcess"], "role": "simulator-process", "kind": "process", "model_language": "sbml", "sed2": "uniformTimeCourse via a Loop (only when the run length is known and nothing else is wired to its stores)", "packages": ["viva-tellurium", "pbg-tellurium"]},
+    {"names": ["TelluriumUTCStep"], "role": "simulator-step", "kind": "step", "model_language": "sbml", "sed2": "modelImport + explicitODESimulation + report", "packages": ["viva-tellurium", "pbg-tellurium"]},
+    {"names": ["TelluriumSteadyStateStep"], "role": "steady-state-step", "kind": "step", "model_language": "sbml", "sed2": "steadyState", "packages": ["viva-tellurium", "pbg-tellurium"]},
+    {"names": ["CopasiUTCProcess"], "role": "simulator-process", "kind": "process", "model_language": "sbml", "sed2": "uniformTimeCourse via a Loop (only when the run length is known and nothing else is wired to its stores)", "packages": ["viva-copasi", "pbg-copasi"]},
+    {"names": ["CopasiUTCStep"], "role": "simulator-step", "kind": "step", "model_language": "sbml", "sed2": "modelImport + explicitODESimulation + report", "packages": ["viva-copasi", "pbg-copasi"]},
+    {"names": ["CopasiSteadyStateStep"], "role": "steady-state-step", "kind": "step", "model_language": "sbml", "sed2": "steadyState", "packages": ["viva-copasi", "pbg-copasi"]},
+    {"names": ["OpenCORProcess"], "role": "simulator-process", "kind": "process", "model_language": "cellml", "sed2": "uniformTimeCourse via a Loop (CellML model)", "packages": ["viva-opencor"]},
+    {"names": ["OpenCORUTCStep"], "role": "simulator-step", "kind": "step", "model_language": "cellml", "sed2": "modelImport + explicitODESimulation + report (CellML model)", "packages": ["viva-opencor"]},
+    {"names": ["BiomodelsCopasiStep", "BiomodelsTelluriumStep"], "role": "simulator-step", "kind": "step", "model_language": "sbml", "sed2": "modelImport + explicitODESimulation + report (model fetched by BioModels id)", "packages": ["viva-biomodels"]},
+    {"names": ["BiomodelsCopasiSteadyStateStep", "BiomodelsTelluriumSteadyStateStep"], "role": "steady-state-step", "kind": "step", "model_language": "sbml", "sed2": "steadyState (model fetched by BioModels id)", "packages": ["viva-biomodels"]},
+    {"names": ["BiomodelsSimbioStep", "BiomodelsPyscesStep", "BiomodelsAmiciStep", "BiomodelsSimbioSteadyStateStep"], "role": "simulator-step", "kind": "step", "model_language": "sbml", "sed2": "none: the simulator is not a SED2 backend", "packages": ["viva-biomodels"], "recognised_only": true},
+    {"names": ["RAMEmitter", "ram-emitter", "Emitter", "ConsoleEmitter", "JSONEmitter", "SQLiteEmitter", "ParquetEmitter"], "role": "emitter", "kind": "step", "sed2": "report over references to task outputs (RAM emitter); other emitters are storage choices SED2 does not model", "packages": ["process-bigraph"]},
+    {"names": ["MathExpressionStep"], "role": "declarative-math", "kind": "step", "sed2": "calculation", "packages": ["viva-basic-processes", "pbg-basic-processes"]},
+    {"names": ["Clock", "Tick"], "role": "stateful-utility", "kind": "process", "hidden_state": true, "sed2": "a time-valued range (clock proposal P2); before that, the loop index and range", "packages": ["viva-basic-processes", "pbg-basic-processes"]},
+    {"names": ["Intervention"], "role": "stateful-utility", "kind": "process", "hidden_state": true, "time_gated": true, "sed2": "modelChange inside a loop, gated by a window (clock proposal P2)", "packages": ["viva-basic-processes", "pbg-basic-processes"]},
+    {"names": ["DynamicFBAProcess", "SpatialDynamicFBAProcess", "CometsProcess"], "role": "coupled-model", "kind": "process", "sed2": "none as a process: dynamic FBA is a Loop of fluxBalanceAnalysis tasks written by hand (plan, section 9, topic 4)", "packages": ["viva-comets"]},
+    {"names": ["DynamicFBA", "SpatialDFBA", "MonodKinetics", "DiffusionAdvection", "Diffusion", "ABM", "TissueDiffusion", "CellExchange", "PymunkParticleMovement", "BrownianMovement", "ParticleExchange", "ParticleDivision", "ManageBoundaries"], "role": "coupled-model", "kind": "any", "sed2": "none (spatial, particle or agent-based model)", "packages": ["spatio-flux"]},
+    {"names": ["BigraphLink"], "role": "drawing", "kind": "process", "sed2": "none: a draft node that backs a figure and is not simulated", "packages": ["spatio-flux"]},
+    {"names": ["Composite"], "role": "composite", "kind": "process", "sed2": "the inner document is classified on its own", "packages": ["process-bigraph"]},
+    {"pattern": "^Sed[A-Z]", "role": "forward-translator", "kind": "step", "sed2": "exact inverse by construction (tier C)", "packages": ["pysed2translate-pbg"]},
+    {"pattern": "(Plots?|Visuali[sz]ation|Viz)$", "role": "visualization", "kind": "any", "sed2": "plot2D, only where the data wired in is a simulation output", "packages": []}
+  ]
+}

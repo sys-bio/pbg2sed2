@@ -1,0 +1,49 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    # The package alone: reader, classifier, survey, importer.  Tests that need the simulators or the forward translator skip here.
+    runs-on: ubuntu-latest
+    env:
+      # With CI set, a corpus document that cannot be downloaded fails its test instead of skipping it.
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .[dev,emit]
+      - run: python -m pytest -q
+
+  roundtrip:
+    # Runs the originals and the translations: the document against its SED2 (generated script) and against its
+    # back-translation to a Process Bigraph composite.  pbg2sed2 does not depend on pySED2Translate or the reverse; the
+    # forward translator is installed here only for these tests.  PBG2SED2_REQUIRE_FULL makes a missing package an error.
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+      PBG2SED2_REQUIRE_FULL: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with: { repository: sys-bio/pySED2Translate, path: pySED2Translate }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - name: libsed2 and the forward translator
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install -r pySED2Translate/requirements.txt
+          tag=$(gh release list --repo sys-bio/SED2 --limit 1 --json tagName --jq '.[0].tagName')
+          mkdir -p "$RUNNER_TEMP/libsed2"
+          gh release download "$tag" --repo sys-bio/SED2 --pattern 'libsed2-*.whl' --dir "$RUNNER_TEMP/libsed2"
+          pip install "$RUNNER_TEMP"/libsed2/libsed2-*.whl
+          pip install -r pySED2Translate/pbg/requirements-lock.txt
+          pip install -e pySED2Translate --no-deps
+          pip install -e pySED2Translate/pbg --no-deps
+      - run: pip install -e .[dev,emit]
+      - run: python -m pytest -q
