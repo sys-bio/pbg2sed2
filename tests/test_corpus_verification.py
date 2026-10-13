@@ -26,7 +26,8 @@ def check(corpus_doc, entry_id, tmp_path, backends, duration=None, via="script")
     if copasi:
         corpus_doc("viva-copasi:repressilator.xml")
     path = corpus_doc(entry_id)
-    cmd = [sys.executable, str(SCRIPT), str(path), "--out", str(tmp_path), "--via", via]
+    result_file = tmp_path / "verification-result.json"          # not stdout: imported packages may print there
+    cmd = [sys.executable, str(SCRIPT), str(path), "--out", str(tmp_path), "--via", via, "--json", str(result_file)]
     if copasi:
         cmd += ["--param", f"model_dir={path.parent}"]
     if duration is not None:
@@ -35,8 +36,8 @@ def check(corpus_doc, entry_id, tmp_path, backends, duration=None, via="script")
         cmd += ["--backend", b]
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
     try:
-        return json.loads(p.stdout)
-    except json.JSONDecodeError:
+        return json.loads(result_file.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
         pytest.fail(f"no result from the verification (exit {p.returncode}): {(p.stdout + p.stderr)[-600:]}")
 
 

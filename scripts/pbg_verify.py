@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Translate a document and compare the original's data with the SED2's (phase R4).  RUNS foreign code: use an environment prepared for the document."""
 import argparse
+import contextlib
 import csv
 import json
 import subprocess
@@ -46,6 +47,7 @@ def main() -> int:
     ap.add_argument("--out", type=Path, help="keep the generated SED2 here (default: a temporary directory)")
     ap.add_argument("--via", choices=["script", "pbg"], default="script",
                     help="how the SED2 is run: the generated script (default) or the back-translation to a process-bigraph composite")
+    ap.add_argument("--json", type=Path, help="also write the result here; a program that reads the result should use this, as imported packages may print to stdout")
     ap.add_argument("--abs-tol", type=float, default=1e-6)
     ap.add_argument("--rel-tol", type=float, default=1e-4)
     ap.add_argument("--search-root", type=Path, help="where to look for scripts that call the document")
@@ -66,8 +68,13 @@ def main() -> int:
         print(f"not translated (exit {code}): {res.reasons}")
         return code
     run_time = res.run_length["value"] if res.kind == "process-ticks" and res.run_length else 0.0
-    v = verify(doc, res, out, a.backend or ["roadrunner"], run_time, a.abs_tol, a.rel_tol, runner=run_via_pbg if a.via == "pbg" else None)
-    print(json.dumps(v, indent=1, default=str))
+    # The originals' packages print to stdout when they are imported (for example "skipping `x` (missing optional dep ...)"); the result must be the only thing on stdout.
+    with contextlib.redirect_stdout(sys.stderr):
+        v = verify(doc, res, out, a.backend or ["roadrunner"], run_time, a.abs_tol, a.rel_tol, runner=run_via_pbg if a.via == "pbg" else None)
+    text = json.dumps(v, indent=1, default=str)
+    if a.json:
+        a.json.write_text(text + "\n", encoding="utf-8")
+    print(text)
     return 0 if all(b.get("ok") for b in v["backends"].values()) else 1
 
 
